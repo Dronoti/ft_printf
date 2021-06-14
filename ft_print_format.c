@@ -6,7 +6,7 @@
 /*   By: bkael <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 08:01:02 by bkael             #+#    #+#             */
-/*   Updated: 2021/06/10 08:01:08 by bkael            ###   ########.fr       */
+/*   Updated: 2021/06/14 08:01:08 by bkael            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	ft_string(t_spec *spec, char *str)
 	if (!str)
 		str = "(null)";
 	length = ft_strlen(str);
-	if (spec->dot && (spec->dot_width < length))
+	if (spec->dot && spec->dot_width >= 0 && (spec->dot_width < length))
 		length = spec->dot_width;
 	if (!spec->minus)
 		i += ft_print_width(spec, length);
@@ -46,30 +46,6 @@ int	ft_string(t_spec *spec, char *str)
 	if (spec->minus)
 		i += ft_print_width(spec, length);
 	return (i);
-}
-
-int	ft_lennum(int nbr, int *fill, t_spec *spec)
-{
-	int	len;
-	int	n;
-
-	len = 0;
-	n = nbr;
-	if (n <= 0)
-		len++;
-	while (n)
-	{
-		len++;
-		n /= 10;
-	}
-	if (nbr > 0)
-		*fill = spec->dot_width - len;
-	else
-		*fill = spec->dot_width - len + 1;
-	if (*fill < 0)
-		*fill = 0;
-	len += *fill;
-	return (len);
 }
 
 int	ft_number(t_spec *spec, int nbr)
@@ -97,25 +73,31 @@ int	ft_number(t_spec *spec, int nbr)
 	return (i + lennbr);
 }
 
-void	ft_putnbr_count(int nbr, int fill, t_spec *spec)
+int	ft_upx(t_spec *spec, unsigned long long nbr, int base)
 {
-	if (nbr == -2147483648 && !spec->zero)
+	int	lennbr;
+	int	fill;
+	int	i;
+
+	i = 0;
+	lennbr = ft_lennum_u(nbr, &fill, spec, base);
+	if (spec->format == 'p')
 	{
-		write(1, "-", 1);
-		while (fill-- > 0)
-			ft_putchar_count('0');
-		write(1, "2147483648", 10);
+		if (spec->zero && spec->width)
+			write(1, "0x", 2);
+		lennbr += 2;
 	}
-	if (nbr < 0 && nbr != -2147483648)
+	if (!spec->minus)
+		i += ft_print_width(spec, lennbr);
+	if (spec->format == 'u')
+		ft_putnbr_count_u(nbr, fill, spec);
+	if (spec->format == 'x' || spec->format == 'X' || spec->format == 'p')
 	{
-		nbr *= -1;
-		write(1, "-", 1);
+		if (spec->format == 'p' && !fill && (!spec->width || !spec->zero))
+			write(1, "0x", 2);
+		ft_put_hex(nbr, fill, spec);
 	}
-	while (fill-- > 0)
-		ft_putchar_count('0');
-	if (nbr == -2147483648)
-		return ;
-	if (nbr > 9)
-		ft_putnbr_count(nbr / 10, fill, spec);
-	ft_putchar_count(nbr % 10 + '0');
+	if (spec->minus)
+		i += ft_print_width(spec, lennbr);
+	return (i + lennbr);
 }

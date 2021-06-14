@@ -6,7 +6,7 @@
 /*   By: bkael <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 19:16:36 by bkael             #+#    #+#             */
-/*   Updated: 2021/06/10 12:28:48 by bkael            ###   ########.fr       */
+/*   Updated: 2021/06/14 12:28:48 by bkael            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,11 @@ void	ft_dot(t_spec *spec, va_list *ap)
 
 int	ft_check_spec(const char *f, int i, t_spec *spec, va_list *ap)
 {
-	while (f[i] || ft_isdigit(f[i]) || ft_is_format(f[i]) || ft_is_flag(f[i]))
+	while (f[i])
 	{
 		if (f[i] == '-')
 			spec->minus = 1;
-		else if (f[i] == '0' && spec->width == 0 && spec->dot == 0)
+		else if (f[i] == '0' && !spec->width && !spec->dot && !spec->minus)
 			spec->zero = 1;
 		else if (f[i] == '.')
 			spec->dot = 1;
@@ -60,9 +60,9 @@ int	ft_check_spec(const char *f, int i, t_spec *spec, va_list *ap)
 			spec->dot_width = va_arg(*ap, int);
 		else if (f[i] == '*' && !spec->dot)
 			ft_dot(spec, ap);
-		else if (ft_isdigit(f[i]) && !spec->dot)
+		else if (f[i] >= '0' && f[i] <= '9' && !spec->dot)
 			spec->width = spec->width * 10 + (f[i] - '0');
-		else if (ft_isdigit(f[i]) && spec->dot)
+		else if (f[i] >= '0' && f[i] <= '9' && spec->dot)
 			spec->dot_width = spec->dot_width * 10 + (f[i] - '0');
 		else if (ft_is_format(f[i]))
 		{

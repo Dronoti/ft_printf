@@ -6,19 +6,16 @@
 #    By: bkael <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/04/29 12:11:53 by bkael             #+#    #+#              #
-#    Updated: 2021/06/10 19:00:30 by bkael            ###   ########.fr        #
+#    Updated: 2021/06/14 19:00:30 by bkael            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libftprintf.a
 
-SRC = ft_isdigit.c \
-	ft_print1.c \
-	ft_print2.c \
+SRC = ft_print_format.c \
 	ft_printf.c \
 	ft_printf_utils.c \
-	ft_strchr.c \
-	ft_strlen.c
+	ft_printf_utils2.c
 
 OBJ = $(SRC:.c=.o)
 
