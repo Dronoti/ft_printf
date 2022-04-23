@@ -19,9 +19,9 @@ git clone https://github.com/Dronoti/ft_printf.git ft_printf && cd ft_printf && 
 ```C
 #include "ft_printf.h"
 ```
-и добавить необходимые флаги при компиляции проекта
+и добавить библиотеку при компиляции проекта
 ```bash
--lft -L path/to/libftprintf.a -I path/to/ft_printf.h
+path/to/libftprintf.a -I path/to/ft_printf.h
 ```
 
 ### Дополнительно
