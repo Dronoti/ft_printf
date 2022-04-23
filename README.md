@@ -9,9 +9,9 @@
 Основной целью этого проекта является изучение функций с вариативным числом аргументов.
 
 ### Использование
-**1. Клонирование**
+**1. Клонирование и компиляция**
 ```bash
-git clone https://github.com/Dronoti/ft_printf.git ft_printf
+git clone https://github.com/Dronoti/ft_printf.git ft_printf && cd ft_printf && make && make clean
 ```
 **2. Использование в коде**
 
@@ -19,7 +19,10 @@ git clone https://github.com/Dronoti/ft_printf.git ft_printf
 ```C
 #include "ft_printf.h"
 ```
-и добавить файлы с расширением `.с` при компиляции проекта
+и добавить необходимые флаги при компиляции проекта
+```bash
+-lft -L path/to/libftprintf.a -I path/to/ft_printf.h
+```
 
 ### Дополнительно
 Подробное описание функции, ограничения и требования к ее реализации представлены в [задании.](./printf.pdf)
